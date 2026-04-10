@@ -49,13 +49,7 @@
     <view class="menu-item logout-item" bindtap="onLogout">
       <text class="menu-icon">🚪</text>
       <text class="menu-text logout-text">退出登录</text>
+      <text class="menu-arrow">›</text>
     </view>
   </view>
-
-  <!-- 登出确认对话框 -->
-  <logout-confirm 
-    visible="{{showLogoutModal}}"
-    bind:cancel="onLogoutCancel"
-    bind:confirm="onLogoutConfirm"
-  />
 </view>

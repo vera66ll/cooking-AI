@@ -1,267 +1,156 @@
-// pages/login/login.ts
-import { CloudBase } from '../../utils/cloudbase';
-
-interface LoginData {
-  phone: string;
-  password: string;
-  rememberMe: boolean;
-  loading: boolean;
-  errors: {
-    phone: string;
-    password: string;
-  };
-}
-
 Page({
   data: {
     phone: '',
     password: '',
+    phoneError: '',
+    passwordError: '',
+    showPassword: false,
     rememberMe: false,
-    loading: false,
-    errors: {
-      phone: '',
-      password: ''
-    }
-  } as LoginData,
+    isLoading: false,
+    isWxLoading: false,
+  },
 
   onLoad() {
-    // 检查是否已经登录
-    const app = getApp<IAppOption>();
-    const userInfo = app.globalData.userInfo || wx.getStorageSync('userInfo');
-    
-    if (userInfo) {
-      // 已登录，直接跳转到首页
-      wx.switchTab({
-        url: '/pages/index/index'
-      });
-      return;
-    }
-    
-    // 检查是否有记住的登录信息
-    this.checkRememberedLogin();
+    // 读取"记住我"状态
+    const rememberMe = wx.getStorageSync('rememberLogin') || false;
+    const savedPhone = wx.getStorageSync('savedPhone') || '';
+    this.setData({ rememberMe, phone: savedPhone });
   },
 
-  /**
-   * 检查记住的登录信息
-   */
-  checkRememberedLogin() {
-    const rememberedPhone = wx.getStorageSync('rememberedPhone');
-    const rememberedPassword = wx.getStorageSync('rememberedPassword');
-    
-    if (rememberedPhone && rememberedPassword) {
-      this.setData({
-        phone: rememberedPhone,
-        password: rememberedPassword,
-        rememberMe: true
-      });
-    }
-  },
-
-  /**
-   * 手机号输入
-   */
+  // ===== 手机号 =====
   onPhoneInput(e: any) {
     const phone = e.detail.value;
-    this.setData({
-      phone,
-      'errors.phone': '' // 清除错误提示
-    });
+    this.setData({ phone, phoneError: '' });
   },
 
-  /**
-   * 密码输入
-   */
+  onPhoneFocus() {
+    this.setData({ phoneError: '' });
+  },
+
+  onPhoneBlur() {
+    this.validatePhone();
+  },
+
+  clearPhone() {
+    this.setData({ phone: '', phoneError: '' });
+  },
+
+  validatePhone(): boolean {
+    const { phone } = this.data;
+    if (!phone) {
+      this.setData({ phoneError: '请输入手机号' });
+      return false;
+    }
+    if (!/^1[3-9]\d{9}$/.test(phone)) {
+      this.setData({ phoneError: '请输入正确的手机号格式' });
+      return false;
+    }
+    this.setData({ phoneError: '' });
+    return true;
+  },
+
+  // ===== 密码 =====
   onPasswordInput(e: any) {
     const password = e.detail.value;
-    this.setData({
-      password,
-      'errors.password': '' // 清除错误提示
-    });
+    this.setData({ password, passwordError: '' });
   },
 
-  /**
-   * 记住我选项变化
-   */
-  onRememberChange(e: any) {
-    this.setData({
-      rememberMe: e.detail.value.length > 0
-    });
+  onPasswordFocus() {
+    this.setData({ passwordError: '' });
   },
 
-  /**
-   * 验证表单
-   */
-  validateForm(): boolean {
-    const { phone, password } = this.data;
-    const errors = {
-      phone: '',
-      password: ''
-    };
-    let isValid = true;
+  onPasswordBlur() {
+    this.validatePassword();
+  },
 
-    // 验证手机号
-    if (!phone) {
-      errors.phone = '请输入手机号';
-      isValid = false;
-    } else if (!/^1[3-9]\d{9}$/.test(phone)) {
-      errors.phone = '请输入正确的手机号';
-      isValid = false;
-    }
+  togglePassword() {
+    this.setData({ showPassword: !this.data.showPassword });
+  },
 
-    // 验证密码
+  validatePassword(): boolean {
+    const { password } = this.data;
     if (!password) {
-      errors.password = '请输入密码';
-      isValid = false;
-    } else if (password.length < 6) {
-      errors.password = '密码至少6位';
-      isValid = false;
+      this.setData({ passwordError: '请输入密码' });
+      return false;
     }
-
-    this.setData({ errors });
-    return isValid;
+    if (password.length < 6) {
+      this.setData({ passwordError: '密码长度不能少于6位' });
+      return false;
+    }
+    this.setData({ passwordError: '' });
+    return true;
   },
 
-  /**
-   * 账号密码登录
-   */
-  async onLogin() {
-    // 验证表单
-    if (!this.validateForm()) {
-      return;
-    }
-
-    this.setData({ loading: true });
-
-    try {
-      // TODO: 这里需要调用实际的登录云函数
-      // 目前项目使用的是微信自动登录，如果需要账号密码登录，需要创建新的云函数
-      const result = await CloudBase.callFunction('userLogin', {
-        loginType: 'password',
-        phone: this.data.phone,
-        password: this.data.password
-      });
-
-      if (result.code === 0 && result.data) {
-        // 登录成功
-        const { userInfo } = result.data;
-        
-        // 保存用户信息到全局
-        const app = getApp<IAppOption>();
-        app.setUserInfo?.(userInfo);
-
-        // 如果选择了"记住我"，保存登录信息
-        if (this.data.rememberMe) {
-          wx.setStorageSync('rememberedPhone', this.data.phone);
-          wx.setStorageSync('rememberedPassword', this.data.password);
-        } else {
-          // 否则清除之前保存的信息
-          wx.removeStorageSync('rememberedPhone');
-          wx.removeStorageSync('rememberedPassword');
-        }
-
-        wx.showToast({
-          title: '登录成功',
-          icon: 'success'
-        });
-
-        // 延迟跳转到首页
-        setTimeout(() => {
-          wx.switchTab({
-            url: '/pages/index/index'
-          });
-        }, 1500);
-      } else {
-        // 登录失败
-        wx.showToast({
-          title: result.message || '登录失败',
-          icon: 'none'
-        });
-      }
-    } catch (error) {
-      console.error('登录失败:', error);
-      wx.showToast({
-        title: '网络请求失败',
-        icon: 'none'
-      });
-    } finally {
-      this.setData({ loading: false });
-    }
+  // ===== 记住我 =====
+  toggleRemember() {
+    const rememberMe = !this.data.rememberMe;
+    this.setData({ rememberMe });
   },
 
-  /**
-   * 微信一键登录
-   */
-  async onWechatLogin(e: any) {
-    if (e.detail.userInfo) {
-      this.setData({ loading: true });
-
-      try {
-        const userInfo = e.detail.userInfo;
-        
-        // 调用云函数进行微信登录
-        const result = await CloudBase.userLogin(userInfo);
-
-        if (result.code === 0 && result.data) {
-          // 登录成功
-          const { userInfo: userData } = result.data;
-          
-          // 保存用户信息到全局
-          const app = getApp<IAppOption>();
-          app.setUserInfo?.(userData);
-
-          wx.showToast({
-            title: '登录成功',
-            icon: 'success'
-          });
-
-          // 延迟跳转到首页
-          setTimeout(() => {
-            wx.switchTab({
-              url: '/pages/index/index'
-            });
-          }, 1500);
-        } else {
-          wx.showToast({
-            title: result.message || '登录失败',
-            icon: 'none'
-          });
-        }
-      } catch (error) {
-        console.error('微信登录失败:', error);
-        wx.showToast({
-          title: '登录失败，请重试',
-          icon: 'none'
-        });
-      } finally {
-        this.setData({ loading: false });
-      }
-    } else {
-      // 用户拒绝授权
-      wx.showToast({
-        title: '您取消了授权',
-        icon: 'none'
-      });
-    }
-  },
-
-  /**
-   * 忘记密码
-   */
+  // ===== 忘记密码 =====
   onForgotPassword() {
-    wx.showToast({
-      title: '请联系客服重置密码',
-      icon: 'none',
-      duration: 2000
-    });
+    wx.showToast({ title: '请联系客服找回密码', icon: 'none', duration: 2000 });
   },
 
-  /**
-   * 注册
-   */
-  onRegister() {
-    wx.showToast({
-      title: '注册功能开发中',
-      icon: 'none'
+  // ===== 手机号+密码登录 =====
+  onLogin() {
+    const phoneOk = this.validatePhone();
+    const passwordOk = this.validatePassword();
+    if (!phoneOk || !passwordOk) return;
+
+    // 手机号+密码登录预留扩展接口（后端尚未实现时给予友好提示）
+    wx.showToast({ title: '该登录方式正在开发中', icon: 'none', duration: 2000 });
+  },
+
+  // ===== 微信一键登录（主流程）=====
+  onWechatLogin() {
+    if (this.data.isWxLoading) return;
+    this.setData({ isWxLoading: true });
+
+    wx.getUserProfile({
+      desc: '用于完善个人信息',
+      success: (profileRes: any) => {
+        const userInfo = profileRes.userInfo;
+
+        wx.cloud.callFunction({
+          name: 'userLogin',
+          data: { userInfo },
+        }).then((result: any) => {
+          if (result.result && result.result.code === 0) {
+            const { userInfo: savedUser } = result.result.data;
+
+            // 更新全局状态
+            const app = getApp() as any;
+            app.setUserInfo(savedUser);
+
+            // 处理"记住我"
+            if (this.data.rememberMe) {
+              wx.setStorageSync('rememberLogin', true);
+              wx.setStorageSync('savedPhone', this.data.phone);
+            } else {
+              wx.removeStorageSync('rememberLogin');
+              wx.removeStorageSync('savedPhone');
+            }
+
+            wx.showToast({ title: '登录成功', icon: 'success', duration: 1000 });
+
+            setTimeout(() => {
+              wx.switchTab({ url: '/pages/index/index' });
+            }, 800);
+          } else {
+            wx.showToast({ title: result.result?.message || '登录失败', icon: 'none' });
+          }
+        }).catch((err: any) => {
+          console.error('登录失败:', err);
+          wx.showToast({ title: '网络异常，请重试', icon: 'none' });
+        }).finally(() => {
+          this.setData({ isWxLoading: false });
+        });
+      },
+      fail: () => {
+        this.setData({ isWxLoading: false });
+        wx.showToast({ title: '已取消授权', icon: 'none' });
+      },
     });
-  }
+  },
 });

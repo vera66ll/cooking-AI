@@ -9,8 +9,7 @@ Page({
       favoriteCount: 0,
       totalLikes: 0
     },
-    isLoading: false,
-    showLogoutModal: false
+    isLoading: false
   },
 
   onShow() {
@@ -86,64 +85,9 @@ Page({
   },
 
   /**
-   * 退出登录
+   * 退出登录 - 跳转到登出确认页
    */
   onLogout() {
-    this.setData({ showLogoutModal: true });
+    wx.navigateTo({ url: '/pages/logout/logout' });
   },
-
-  /**
-   * 取消登出
-   */
-  onLogoutCancel() {
-    this.setData({ showLogoutModal: false });
-  },
-
-  /**
-   * 确认登出
-   */
-  onLogoutConfirm() {
-    this.setData({ showLogoutModal: false });
-    this.performLogout();
-  },
-
-  /**
-   * 执行登出操作
-   */
-  performLogout() {
-    wx.showLoading({ title: '退出中...' });
-
-    try {
-      // 清除本地存储的用户信息
-      wx.removeStorageSync('userInfo');
-      wx.removeStorageSync('rememberedPhone');
-      wx.removeStorageSync('rememberedPassword');
-
-      // 重置全局用户信息
-      const app = getApp<IAppOption>();
-      app.setUserInfo?.(null);
-
-      wx.hideLoading();
-
-      wx.showToast({
-        title: '已退出登录',
-        icon: 'success',
-        duration: 1500
-      });
-
-      // 延迟跳转到登录页面
-      setTimeout(() => {
-        wx.reLaunch({
-          url: '/pages/login/login'
-        });
-      }, 1500);
-    } catch (error) {
-      console.error('退出登录失败:', error);
-      wx.hideLoading();
-      wx.showToast({
-        title: '退出失败，请重试',
-        icon: 'none'
-      });
-    }
-  }
 });

@@ -1,0 +1,37 @@
+<view class="logout-page">
+  <!-- 背景装饰圆 -->
+  <view class="bg-circle bg-circle-1"></view>
+  <view class="bg-circle bg-circle-2"></view>
+
+  <!-- 确认卡片 -->
+  <view class="confirm-card">
+    <!-- 图标区 -->
+    <view class="icon-wrap">
+      <text class="logout-icon">🚪</text>
+    </view>
+
+    <!-- 标题 -->
+    <text class="confirm-title">确认退出登录？</text>
+    <text class="confirm-desc">退出后需要重新登录才能使用完整功能</text>
+
+    <!-- 用户信息展示 -->
+    <view class="user-preview" wx:if="{{userInfo}}">
+      <image class="preview-avatar" src="{{userInfo.avatarUrl || userInfo.avatar}}" mode="aspectFill" />
+      <text class="preview-name">{{userInfo.nickName || userInfo.nickname || '微信用户'}}</text>
+    </view>
+
+    <!-- 按钮区 -->
+    <view class="btn-group">
+      <button class="cancel-btn" bindtap="onCancel">取消</button>
+      <button class="confirm-btn {{isLoading ? 'loading' : ''}}" bindtap="onConfirmLogout" disabled="{{isLoading}}">
+        <text wx:if="{{!isLoading}}">确认退出</text>
+        <text wx:else>退出中...</text>
+      </button>
+    </view>
+  </view>
+
+  <!-- 底部提示 -->
+  <view class="bottom-tip">
+    <text class="tip-text">💡 退出登录不会删除您的任何数据</text>
+  </view>
+</view>
