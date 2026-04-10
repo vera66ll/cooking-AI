@@ -1,0 +1,24 @@
+{
+  "databases": {
+    "users": {
+      "read": "doc._openid == auth.openid",
+      "write": "doc._openid == auth.openid"
+    },
+    "dishes": {
+      "read": true,
+      "write": "doc._openid == auth.openid"
+    },
+    "favorites": {
+      "read": "doc._openid == auth.openid",
+      "write": "doc._openid == auth.openid"
+    },
+    "menus": {
+      "read": "doc._openid == auth.openid",
+      "write": "doc._openid == auth.openid"
+    },
+    "comments": {
+      "read": true,
+      "write": "doc._openid == auth.openid"
+    }
+  }
+}

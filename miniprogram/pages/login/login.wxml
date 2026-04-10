@@ -1,0 +1,89 @@
+<view class="login-page">
+  <!-- Logo 和标题区域 -->
+  <view class="login-header">
+    <view class="logo-wrapper">
+      <text class="logo-icon">🍽️</text>
+    </view>
+    <text class="app-title">美食记</text>
+    <text class="app-subtitle">记录你的美食生活</text>
+  </view>
+
+  <!-- 登录表单区域 -->
+  <view class="login-form">
+    <!-- 手机号输入框 -->
+    <view class="form-item">
+      <view class="input-wrapper">
+        <text class="input-icon">📱</text>
+        <input 
+          class="form-input" 
+          type="number"
+          maxlength="11"
+          placeholder="请输入手机号"
+          value="{{phone}}"
+          bindinput="onPhoneInput"
+        />
+      </view>
+      <text class="error-tip" wx:if="{{errors.phone}}">{{errors.phone}}</text>
+    </view>
+
+    <!-- 密码输入框 -->
+    <view class="form-item">
+      <view class="input-wrapper">
+        <text class="input-icon">🔒</text>
+        <input 
+          class="form-input" 
+          type="password"
+          password="{{true}}"
+          placeholder="请输入密码（至少6位）"
+          value="{{password}}"
+          bindinput="onPasswordInput"
+        />
+      </view>
+      <text class="error-tip" wx:if="{{errors.password}}">{{errors.password}}</text>
+    </view>
+
+    <!-- 记住我和忘记密码 -->
+    <view class="form-options">
+      <checkbox-group bindchange="onRememberChange">
+        <label class="remember-me">
+          <checkbox value="remember" checked="{{rememberMe}}" color="#FF6B35" />
+          <text class="remember-text">记住我</text>
+        </label>
+      </checkbox-group>
+      <text class="forgot-password" bindtap="onForgotPassword">忘记密码？</text>
+    </view>
+
+    <!-- 登录按钮 -->
+    <button 
+      class="login-btn {{loading ? 'loading' : ''}}"
+      bindtap="onLogin"
+      disabled="{{loading}}"
+    >
+      <text wx:if="{{!loading}}">登录</text>
+      <text wx:else>登录中...</text>
+    </button>
+
+    <!-- 分隔线 -->
+    <view class="divider">
+      <view class="divider-line"></view>
+      <text class="divider-text">或</text>
+      <view class="divider-line"></view>
+    </view>
+
+    <!-- 微信一键登录 -->
+    <button 
+      class="wechat-login-btn"
+      open-type="getUserInfo"
+      bindgetuserinfo="onWechatLogin"
+    >
+      <text class="wechat-icon">💚</text>
+      <text>微信一键登录</text>
+    </button>
+  </view>
+
+  <!-- 注册链接 -->
+  <view class="register-link">
+    <text>还没有账号？</text>
+    <text class="register-btn" bindtap="onRegister">立即注册</text>
+  </view>
+</view>

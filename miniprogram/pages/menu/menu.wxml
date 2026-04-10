@@ -1,0 +1,32 @@
+<view class="menu-page">
+  <view class="date-header">
+    <text class="current-date">{{currentDate}}</text>
+  </view>
+
+  <scroll-view class="menu-content" scroll-y enhanced>
+    <block wx:for="{{['breakfast', 'lunch', 'dinner']}}" wx:key="*this">
+      <view class="meal-section">
+        <view class="meal-header">
+          <text class="meal-icon">{{item === 'breakfast' ? '🌅' : item === 'lunch' ? '☀️' : '🌙'}}</text>
+          <text class="meal-title">{{item === 'breakfast' ? '早餐' : item === 'lunch' ? '午餐' : '晚餐'}}</text>
+        </view>
+        
+        <view class="meal-list" wx:if="{{getMealsByType(item).length > 0}}">
+          <block wx:for="{{getMealsByType(item)}}" wx:key="dishId" wx:for-item="meal">
+            <view class="meal-item">
+              <image class="meal-image" src="{{meal.dishImage}}" mode="aspectFill" />
+              <text class="meal-name">{{meal.dishName}}</text>
+              <view class="delete-btn" catchtap="onDeleteMeal" data-id="{{meal.dishId}}" data-type="{{item}}">
+                <text>✕</text>
+              </view>
+            </view>
+          </block>
+        </view>
+        
+        <view class="empty-meal" wx:else>
+          <text>暂无菜品，去添加吧~</text>
+        </view>
+      </view>
+    </block>
+  </scroll-view>
+</view>

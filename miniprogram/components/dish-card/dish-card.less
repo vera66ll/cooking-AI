@@ -1,0 +1,118 @@
+.dish-card {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-bottom: 16rpx;
+  transition: transform 0.2s;
+  
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.card-image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 360rpx;
+  overflow: hidden;
+}
+
+.card-image {
+  width: 100%;
+  height: 100%;
+}
+
+.favorite-btn {
+  position: absolute;
+  top: 16rpx;
+  right: 16rpx;
+  width: 64rpx;
+  height: 64rpx;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  
+  .heart-icon {
+    font-size: 32rpx;
+    
+    &.active {
+      animation: heartBeat 0.3s ease-in-out;
+    }
+  }
+}
+
+@keyframes heartBeat {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+}
+
+.card-content {
+  padding: 20rpx;
+}
+
+.dish-name {
+  display: block;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #5D4037;
+  margin-bottom: 12rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dish-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12rpx;
+}
+
+.category-tag {
+  padding: 4rpx 12rpx;
+  background: #FFF8F0;
+  color: #FF6B35;
+  font-size: 22rpx;
+  border-radius: 8rpx;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 4rpx;
+  
+  .star {
+    font-size: 24rpx;
+  }
+  
+  .rating-value {
+    font-size: 24rpx;
+    color: #FFD700;
+    font-weight: 600;
+  }
+}
+
+.author-info {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.author-avatar {
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 50%;
+}
+
+.author-name {
+  font-size: 24rpx;
+  color: rgba(0, 0, 0, 0.65);
+}

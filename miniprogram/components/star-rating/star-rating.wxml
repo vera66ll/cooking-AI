@@ -1,0 +1,12 @@
+<view class="star-rating">
+  <block wx:for="{{5}}" wx:key="index">
+    <text 
+      class="star {{index < rating ? 'active' : ''}}" 
+      bindtap="onStarTap" 
+      data-rating="{{index + 1}}"
+    >
+      ⭐
+    </text>
+  </block>
+  <text class="rating-text" wx:if="{{showText}}">{{rating.toFixed(1)}}</text>
+</view>

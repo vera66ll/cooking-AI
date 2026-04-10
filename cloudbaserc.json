@@ -1,0 +1,22 @@
+{
+  "version": "1.0",
+  "envId": "vera-liu-space-6g2h5zpq5043f8fe",
+  "functions": [
+    {
+      "name": "initDatabase",
+      "path": "./cloudfunctions/initDatabase"
+    },
+    {
+      "name": "userLogin",
+      "path": "./cloudfunctions/userLogin"
+    },
+    {
+      "name": "getUserInfo",
+      "path": "./cloudfunctions/getUserInfo"
+    },
+    {
+      "name": "updateUserInfo",
+      "path": "./cloudfunctions/updateUserInfo"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+<view class="favorite-page">
+  <view class="favorite-list" wx:if="{{favoriteDishes.length > 0}}">
+    <block wx:for="{{favoriteDishes}}" wx:key="id">
+      <view class="dish-item" bindtap="onDishTap" data-id="{{item.id}}">
+        <image class="dish-image" src="{{item.images[0]}}" mode="aspectFill" />
+        <view class="dish-info">
+          <text class="dish-name">{{item.name}}</text>
+          <text class="dish-category">{{item.category}}</text>
+        </view>
+        <view class="delete-btn" catchtap="onDeleteFavorite" data-id="{{item.id}}">
+          <text>✕</text>
+        </view>
+      </view>
+    </block>
+  </view>
+  
+  <view class="empty-tip" wx:else>
+    <text class="empty-icon">❤️</text>
+    <text class="empty-text">暂无收藏</text>
+  </view>
+</view>

@@ -1,0 +1,16 @@
+<view class="logout-modal" wx:if="{{visible}}" catchtap="onMaskTap">
+  <view class="modal-content" catchtap="stopPropagation">
+    <view class="modal-header">
+      <text class="modal-title">确认登出</text>
+    </view>
+    
+    <view class="modal-body">
+      <text class="modal-message">您确定要退出登录吗？</text>
+    </view>
+    
+    <view class="modal-footer">
+      <button class="modal-btn cancel-btn" bindtap="onCancel">取消</button>
+      <button class="modal-btn confirm-btn" bindtap="onConfirm">确认</button>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "发布菜品",
+  "usingComponents": {
+    "image-upload": "/components/image-upload/image-upload"
+  }
+}

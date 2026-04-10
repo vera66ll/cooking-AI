@@ -1,0 +1,141 @@
+.detail-page {
+  min-height: 100vh;
+  background: #FFF8F0;
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  flex: 1;
+}
+
+.image-swiper {
+  width: 100%;
+  height: 500rpx;
+}
+
+.swiper-image {
+  width: 100%;
+  height: 100%;
+}
+
+.info-section {
+  padding: 32rpx;
+  background: #fff;
+  margin-bottom: 16rpx;
+}
+
+.dish-title {
+  display: block;
+  font-size: 40rpx;
+  font-weight: 600;
+  color: #5D4037;
+  margin-bottom: 16rpx;
+}
+
+.meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.category-badge {
+  padding: 8rpx 20rpx;
+  background: #FFF8F0;
+  color: #FF6B35;
+  border-radius: 24rpx;
+  font-size: 24rpx;
+}
+
+.author-section {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  padding: 24rpx 32rpx;
+  background: #fff;
+  margin-bottom: 16rpx;
+}
+
+.author-avatar {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+}
+
+.author-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.author-name {
+  font-size: 28rpx;
+  color: #333;
+  font-weight: 500;
+}
+
+.publish-time {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.desc-section, .steps-section, .tags-section {
+  padding: 32rpx;
+  background: #fff;
+  margin-bottom: 16rpx;
+}
+
+.section-title {
+  display: block;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #5D4037;
+  margin-bottom: 16rpx;
+}
+
+.desc-text, .steps-text {
+  font-size: 28rpx;
+  color: #666;
+  line-height: 1.8;
+}
+
+.tags-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+}
+
+.tag {
+  padding: 8rpx 20rpx;
+  background: #f5f5f5;
+  border-radius: 24rpx;
+  font-size: 24rpx;
+  color: #666;
+}
+
+.action-bar {
+  display: flex;
+  gap: 16rpx;
+  padding: 24rpx 32rpx;
+  background: #fff;
+  box-shadow: 0 -2rpx 8rpx rgba(0, 0, 0, 0.06);
+}
+
+.action-btn {
+  flex: 1;
+  height: 80rpx;
+  border-radius: 40rpx;
+  font-size: 28rpx;
+  font-weight: 600;
+  border: none;
+  
+  &.secondary {
+    background: #f5f5f5;
+    color: #666;
+  }
+  
+  &.primary {
+    background: linear-gradient(135deg, #FF6B35 0%, #FF8C42 100%);
+    color: #fff;
+  }
+}

@@ -1,0 +1,62 @@
+<view class="detail-page" wx:if="{{dish}}">
+  <scroll-view class="content" scroll-y enhanced>
+    <!-- 轮播图 -->
+    <swiper class="image-swiper" indicator-dots autoplay circular>
+      <block wx:for="{{dish.images}}" wx:key="index">
+        <swiper-item>
+          <image class="swiper-image" src="{{item}}" mode="aspectFill" />
+        </swiper-item>
+      </block>
+    </swiper>
+
+    <!-- 基本信息 -->
+    <view class="info-section">
+      <text class="dish-title">{{dish.name}}</text>
+      <view class="meta-row">
+        <view class="category-badge">{{dish.category}}</view>
+        <star-rating rating="{{dish.rating}}" readonly="{{true}}" />
+      </view>
+    </view>
+
+    <!-- 作者信息 -->
+    <view class="author-section">
+      <image class="author-avatar" src="{{dish.authorAvatar}}" mode="aspectFill" />
+      <view class="author-info">
+        <text class="author-name">{{dish.authorName}}</text>
+        <text class="publish-time">{{formatTime(dish.createTime)}}</text>
+      </view>
+    </view>
+
+    <!-- 菜品描述 -->
+    <view class="desc-section">
+      <text class="section-title">菜品介绍</text>
+      <text class="desc-text">{{dish.description}}</text>
+    </view>
+
+    <!-- 做法步骤 -->
+    <view class="steps-section" wx:if="{{dish.steps}}">
+      <text class="section-title">详细做法</text>
+      <text class="steps-text">{{dish.steps}}</text>
+    </view>
+
+    <!-- 标签 -->
+    <view class="tags-section" wx:if="{{dish.tags && dish.tags.length > 0}}">
+      <text class="section-title">标签</text>
+      <view class="tags-list">
+        <block wx:for="{{dish.tags}}" wx:key="index">
+          <view class="tag">{{item}}</view>
+        </block>
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 底部操作栏 -->
+  <view class="action-bar">
+    <button class="action-btn secondary" bindtap="onAddToMenu">
+      <text>📅 加入菜单</text>
+    </button>
+    <button class="action-btn primary" bindtap="onRate">
+      <text>⭐ 立即评分</text>
+    </button>
+  </view>
+</view>

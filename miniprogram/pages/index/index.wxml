@@ -1,0 +1,51 @@
+<view class="index-page">
+  <!-- 搜索栏 -->
+  <view class="search-bar">
+    <view class="search-input-wrapper">
+      <text class="search-icon">🔍</text>
+      <input 
+        class="search-input" 
+        placeholder="搜索菜品名称..."
+        value="{{searchKeyword}}"
+        bindinput="onSearchInput"
+      />
+    </view>
+  </view>
+
+  <!-- 菜系分类标签 -->
+  <scroll-view class="category-scroll" scroll-x enhanced show-scrollbar="{{false}}">
+    <view class="category-list">
+      <block wx:for="{{categories}}" wx:key="index">
+        <view 
+          class="category-tag {{currentCategory === item ? 'active' : ''}}"
+          bindtap="onCategoryTap"
+          data-category="{{item}}"
+        >
+          {{item}}
+        </view>
+      </block>
+    </view>
+  </scroll-view>
+
+  <!-- 菜品列表 -->
+  <view class="dish-list-container">
+    <view class="dish-list" wx:if="{{dishList.length > 0}}">
+      <block wx:for="{{dishList}}" wx:key="id">
+        <dish-card 
+          dish="{{item}}"
+          isFavorite="{{favorites.includes(item.id)}}"
+          bind:cardtap="onCardTap"
+          bind:favoritetap="onFavoriteTap"
+        />
+      </block>
+    </view>
+    
+    <empty-state 
+      wx:else
+      icon="🍽️"
+      text="暂无菜品，快去添加吧"
+      showAction="{{true}}"
+      bind:actiontap="goToPublish"
+    />
+  </view>
+</view>

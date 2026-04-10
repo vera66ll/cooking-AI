@@ -1,0 +1,23 @@
+<view class="image-upload">
+  <view class="image-list">
+    <block wx:for="{{images}}" wx:key="index">
+      <view class="image-item">
+        <image 
+          class="uploaded-image" 
+          src="{{item}}" 
+          mode="aspectFill"
+          bindtap="onPreviewImage"
+          data-index="{{index}}"
+        />
+        <view class="delete-btn" catchtap="onDeleteImage" data-index="{{index}}">
+          <text>✕</text>
+        </view>
+      </view>
+    </block>
+    
+    <view class="upload-btn" bindtap="onChooseImage" wx:if="{{images.length < maxCount}}">
+      <text class="upload-icon">+</text>
+      <text class="upload-text">添加图片</text>
+    </view>
+  </view>
+</view>

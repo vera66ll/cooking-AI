@@ -1,0 +1,32 @@
+.star-rating {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.star {
+  font-size: 40rpx;
+  opacity: 0.3;
+  transition: all 0.2s;
+  
+  &.active {
+    opacity: 1;
+    animation: starFlash 0.3s ease-in-out;
+  }
+}
+
+@keyframes starFlash {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+.rating-text {
+  margin-left: 12rpx;
+  font-size: 28rpx;
+  color: #FFD700;
+  font-weight: 600;
+}

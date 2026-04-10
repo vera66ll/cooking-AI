@@ -1,0 +1,41 @@
+.category-page {
+  min-height: 100vh;
+  background: #FFF8F0;
+  padding: 32rpx;
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24rpx;
+}
+
+.category-item {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 40rpx 20rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.06);
+  
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.category-icon {
+  font-size: 64rpx;
+}
+
+.category-name {
+  font-size: 28rpx;
+  color: #5D4037;
+  font-weight: 600;
+}
+
+.category-count {
+  font-size: 22rpx;
+  color: #999;
+}
