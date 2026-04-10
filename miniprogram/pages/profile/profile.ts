@@ -9,7 +9,8 @@ Page({
       favoriteCount: 0,
       totalLikes: 0
     },
-    isLoading: false
+    isLoading: false,
+    showLogoutModal: false
   },
 
   onShow() {
@@ -88,17 +89,22 @@ Page({
    * 退出登录
    */
   onLogout() {
-    wx.showModal({
-      title: '确认登出',
-      content: '您确定要退出登录吗？',
-      confirmColor: '#ff4444',
-      cancelColor: '#999',
-      success: (res) => {
-        if (res.confirm) {
-          this.performLogout();
-        }
-      }
-    });
+    this.setData({ showLogoutModal: true });
+  },
+
+  /**
+   * 取消登出
+   */
+  onLogoutCancel() {
+    this.setData({ showLogoutModal: false });
+  },
+
+  /**
+   * 确认登出
+   */
+  onLogoutConfirm() {
+    this.setData({ showLogoutModal: false });
+    this.performLogout();
   },
 
   /**

@@ -1,3 +1,6 @@
 {
-  "navigationBarTitleText": "我的"
+  "navigationBarTitleText": "我的",
+  "usingComponents": {
+    "logout-confirm": "/components/logout-confirm/logout-confirm"
+  }
 }

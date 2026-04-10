@@ -51,4 +51,11 @@
       <text class="menu-text logout-text">退出登录</text>
     </view>
   </view>
+
+  <!-- 登出确认对话框 -->
+  <logout-confirm 
+    visible="{{showLogoutModal}}"
+    bind:cancel="onLogoutCancel"
+    bind:confirm="onLogoutConfirm"
+  />
 </view>
